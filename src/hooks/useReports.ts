@@ -21,19 +21,22 @@ export const useReports = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [reports, setReports] = useState<IReports[]>([]);
   const [error, setError] = useState<IError>({});
-  const {accessToken,userId}=useUser();
+  const { accessToken, userId } = useUser();
 
   const getMyReports = async () => {
+    if (!accessToken || !userId) return; 
     setIsLoading(true);
     try {
-      const { data } = await Axios.get<IReportsResponse>("/photos");
+      const { data } = await Axios.get<IReportsResponse>("/photos", {
+        headers: { Authorization: `Bearer ${accessToken}` }, 
+      });
       setReports(data.photos);
     } catch (error) {
       if (error instanceof AxiosError) {
         setError({
           name: error.name,
           message: error.message,
-          isError:true
+          isError: true,
         });
       }
     } finally {
@@ -43,7 +46,7 @@ export const useReports = () => {
 
   useEffect(() => {
     getMyReports();
-  }, [accessToken,userId]);
+  }, []); 
 
-  return { reports, isLoading, error ,setReports };
+  return { reports, isLoading, error, setReports };
 };

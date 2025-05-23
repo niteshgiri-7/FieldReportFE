@@ -1,19 +1,19 @@
 import { useState, type ReactNode } from "react";
 import { UserContext } from "./userContext";
 
-export const UserContextProvider = ({ children }:{children:ReactNode}) => {
-  const [userId, setUserId] = useState<string | null|undefined>();
-  const [accessToken, setAccessToken] = useState<string | null|undefined>();
-  const[role,setRole]=useState<"user"|"editor"|"admin">("user");
+export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+  const [userId, setUserId] = useState<string | null | undefined>(localStorage.getItem("userId") || undefined);
+  const [accessToken, setAccessToken] = useState<string | null | undefined>(localStorage.getItem("accessToken") || undefined);
+  const [role, setRole] = useState<"user" | "editor" | "admin">((localStorage.getItem("role") as "user" | "editor" | "admin") || "user" );
 
   const handleSetUserId = (userId: string) => {
     setUserId(userId);
-    localStorage.setItem("userId", userId);  
+    localStorage.setItem("userId", userId);
   };
 
   const handleSetAccessToken = (token: string) => {
     setAccessToken(token);
-    localStorage.setItem("accessToken", token);  
+    localStorage.setItem("accessToken", token);
   };
 
   const handleClearUser = () => {
@@ -23,10 +23,10 @@ export const UserContextProvider = ({ children }:{children:ReactNode}) => {
     localStorage.removeItem("accessToken");
   };
 
-const handleSetRole = (role:"user"|"editor"|"admin")=>{
+  const handleSetRole = (role: "user" | "editor" | "admin") => {
     setRole(role);
-    localStorage.setItem("role",role);
-}
+    localStorage.setItem("role", role);
+  }
 
   return (
     <UserContext.Provider
@@ -37,7 +37,7 @@ const handleSetRole = (role:"user"|"editor"|"admin")=>{
         setUserId: handleSetUserId,
         setAccessToken: handleSetAccessToken,
         clearUser: handleClearUser,
-        setRole:handleSetRole,
+        setRole: handleSetRole,
 
       }}
     >

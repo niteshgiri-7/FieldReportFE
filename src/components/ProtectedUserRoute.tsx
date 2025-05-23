@@ -1,12 +1,13 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
+import { useUser } from "../context/getContext";
 
 const ProtectedUserRoute = () => {
+  const { userId, accessToken, role } = useUser();
 
+  const finalRole = role || localStorage.getItem("role");
+  const finalUserId = userId || localStorage.getItem("userId");
 
-  const finalRole =  localStorage.getItem("role");
-  const finalUserId =  localStorage.getItem("userId");
-
-  if (!finalRole || !finalUserId) {
+  if (!finalRole || !finalUserId || !accessToken) {
     return <Navigate to="/login" replace />;
   }
 
@@ -14,4 +15,3 @@ const ProtectedUserRoute = () => {
 };
 
 export default ProtectedUserRoute;
-

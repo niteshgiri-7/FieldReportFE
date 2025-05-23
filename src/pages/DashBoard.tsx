@@ -5,6 +5,7 @@ import { useReports, type IReports } from "../hooks/useReports";
 import useErrorNotification from "../hooks/useErrorNotification";
 import { useUser } from "../context/getContext";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 
 
@@ -12,6 +13,9 @@ const UserDashBoard: React.FC = () => {
   const { isLoading, error, reports, setReports } = useReports();
   const { userId } = useUser();
   useErrorNotification(error.isError, error.message)
+  if(error.isError)
+    toast.error("SomethingWent wrong,please refresh the page.")
+  
   const [showCamera, setShowCamera] = useState<boolean>(false);
 
 
@@ -45,7 +49,9 @@ const UserDashBoard: React.FC = () => {
       </div>
       {
         isLoading ?
-          <h1>Loading</h1> :
+          <div className="w-full h-[70vh] flex justify-center items-center">
+            <h1 className="text-2xl font-bold">Loading...</h1>
+            </div>:
           !showCamera && reports?.length > 0
             ?
             <div className="flex max-w-[90vw] mx-auto justify-around flex-wrap  gap-5 mt-10">
