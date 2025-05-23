@@ -3,6 +3,7 @@ import { GoEye, GoEyeClosed } from "react-icons/go"
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useAuth";
 import { ClipLoader } from "react-spinners";
+import { Toaster } from "react-hot-toast";
 
 const Login = () => {
 
@@ -53,7 +54,7 @@ const Login = () => {
                     </Link>
                 </p>
             </div>
-
+            <Toaster position="top-center"/>
         </div>
     )
 }

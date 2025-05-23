@@ -4,6 +4,7 @@ import Axios from "../apis/axiosInstance";
 import { supabase } from "../config/supabase";
 import { useUser } from "../context/getContext";
 import type { ICredentials, IError } from "../types";
+import toast from "react-hot-toast";
 
 interface IRoleResponse {
   userRole: {
@@ -33,6 +34,7 @@ export const useSignup = () => {
       }));
     } else {
       navigate("/login");
+      toast.success("Please Verify the Email and Login")
     }
 
     setLoading(false);

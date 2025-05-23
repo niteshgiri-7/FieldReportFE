@@ -2,26 +2,33 @@ import { useEffect, useState } from "react";
 import Axios from "../apis/axiosInstance";
 import { AxiosError } from "axios";
 import type { IError } from "../types";
+import { useUser } from "../context/getContext";
 
-interface Users{
-       user_id:string;
-        email:string;
-        role:"editor"|"admin"|"user"
+interface Users {
+  user_id: string;
+  email: string;
+  role: "editor" | "admin" | "user";
 }
-interface IResponse{
-    users:Users[]
+interface IResponse {
+  users: Users[];
 }
 
 export const useGetAllUsers = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allUsers, setAllUsers] = useState<Users[]>([]);
   const [error, setError] = useState<IError>({});
+  const { accessToken, userId } = useUser();
 
   const getAllUsers = async () => {
+    if (!accessToken || !userId) return;
     try {
       setIsLoading(true);
-      const { data } = await Axios.get<IResponse>("/users/all");
-      setAllUsers(data.users)
+      const { data } = await Axios.get<IResponse>("/users/all", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setAllUsers(data.users);
       return data;
     } catch (error) {
       if (error instanceof AxiosError)
@@ -36,12 +43,11 @@ export const useGetAllUsers = () => {
       setIsLoading(false);
     }
   };
-     
-  useEffect(()=>{
-    const data =  getAllUsers();
-    console.log(data,"again");
-  },[])
 
-  return {isLoading,error,allUsers};
+  useEffect(() => {
+    const data = getAllUsers();
+    console.log(data, "again");
+  }, []);
 
+  return { isLoading, error, allUsers };
 };
