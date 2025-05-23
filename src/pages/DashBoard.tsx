@@ -17,7 +17,6 @@ const UserDashBoard: React.FC = () => {
 
   const finalRole = localStorage.getItem("role") || "user";
 
-  console.log(finalRole)
 
   const handleNewImgCapture = (image: string, location: { latitude: number; longitude: number }): void => {
     const newReport: IReports = {
@@ -31,7 +30,6 @@ const UserDashBoard: React.FC = () => {
     setReports(prev => [newReport, ...prev]);
     setShowCamera(false);
   };
-console.log(showCamera)
   return (
     <div className="p-10">
       <div className="md:w-[90%] mx-auto flex  items-center justify-between">

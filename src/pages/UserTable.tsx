@@ -30,7 +30,6 @@ const UserTable = () => {
 
     const updateRole = async (userId: string) => {
         const newRole = pendingRoles[userId] || allUsers.find((u) => u.user_id === userId)?.role;
-        console.log(`Updating user ${userId} to role: ${newRole}`);
         try {
             const { data } = await Axios.put<{ success: boolean }>(`/users/${userId}/role`, {
                 role: newRole

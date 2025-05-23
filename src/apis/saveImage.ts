@@ -60,10 +60,9 @@ export const saveImage = async (
       }
     );
 
-    console.log("✅ Photo uploaded and saved:", photoData.photo);
     return photoData.photo;
   } catch (error) {
-    console.error(" Error uploading photo:", error);
+    console.log(error)
     toast.error("Upload failed. Please try again.");
   }
 };

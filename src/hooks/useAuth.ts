@@ -23,8 +23,7 @@ export const useSignup = () => {
     setError({});
 
 
-    const {data, error } = await supabase.auth.signUp({ email, password });
-     console.log(data);
+    const { error } = await supabase.auth.signUp({ email, password });
     if (error) {
       setError((prev) => ({
         ...prev,

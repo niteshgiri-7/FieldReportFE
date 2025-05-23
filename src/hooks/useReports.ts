@@ -27,7 +27,6 @@ export const useReports = () => {
     setIsLoading(true);
     try {
       const { data } = await Axios.get<IReportsResponse>("/photos");
-      console.log(data.photos);
       setReports(data.photos);
     } catch (error) {
       if (error instanceof AxiosError) {

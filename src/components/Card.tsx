@@ -8,7 +8,6 @@ type props = {
 }
 const bucket = import.meta.env.VITE_BUCKET;
 const Card: FC<props> = ({ item }) => {
- console.log(item)
  //directly rendering the newly created image,if bucket bata fetch garya ho vaney bucket info use garne
  const isBase64 = item.image_url.startsWith("data:image");
   const imageUrl = isBase64 

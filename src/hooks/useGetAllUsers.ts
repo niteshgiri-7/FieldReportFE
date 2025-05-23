@@ -21,7 +21,6 @@ export const useGetAllUsers = () => {
     try {
       setIsLoading(true);
       const { data } = await Axios.get<IResponse>("/users/all");
-      console.log(data);
       setAllUsers(data.users)
       return data;
     } catch (error) {

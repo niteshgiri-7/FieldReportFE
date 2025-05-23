@@ -2,8 +2,8 @@ import { useState, type ReactNode } from "react";
 import { UserContext } from "./userContext";
 
 export const UserContextProvider = ({ children }:{children:ReactNode}) => {
-  const [userId, setUserId] = useState<string | null>(localStorage.getItem("userId"));
-  const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem("accessToken"));
+  const [userId, setUserId] = useState<string | null|undefined>();
+  const [accessToken, setAccessToken] = useState<string | null|undefined>();
   const[role,setRole]=useState<"user"|"editor"|"admin">("user");
 
   const handleSetUserId = (userId: string) => {
