@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useAuth";
 import { ClipLoader } from "react-spinners";
 import { Toaster } from "react-hot-toast";
+import { useUser } from "../context/getContext";
 
 const Login = () => {
 
@@ -12,12 +13,12 @@ const Login = () => {
     const [password, setPassword] = useState<string>("");
     const navigate = useNavigate();
     const { login, loading, error, setError } = useLogin();
-    const accessToken = localStorage.getItem("accessToken");
+    const {accessToken ,role} = useUser();
 
     useEffect(() => {
-        if (accessToken)
+        if (accessToken && role)
             navigate("/dashboard");
-    }, [accessToken,navigate])
+    }, [accessToken,navigate,role])
 
     const handleLogin = () => {
         login({ email, password });

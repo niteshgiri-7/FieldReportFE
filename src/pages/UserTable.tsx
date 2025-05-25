@@ -7,6 +7,7 @@ import useErrorNotification from "../hooks/useErrorNotification";
 import Axios from "../apis/axiosInstance";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useUser } from "../context/getContext";
 
 
 
@@ -14,7 +15,7 @@ const UserTable = () => {
 
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const [pendingRoles, setPendingRoles] = useState<{ [key: string]: string }>({});
-
+    const { accessToken } = useUser();
     const { allUsers, error, isLoading } = useGetAllUsers();
 
     useErrorNotification(error.isError, error.message);
@@ -25,7 +26,7 @@ const UserTable = () => {
 
     const changeRole = (userId: string, newRole: string) => {
         setPendingRoles((prev) => ({ ...prev, [userId]: newRole }));
-        setOpenDropdown(null); 
+        setOpenDropdown(null);
     };
 
     const updateRole = async (userId: string) => {
@@ -33,7 +34,13 @@ const UserTable = () => {
         try {
             const { data } = await Axios.put<{ success: boolean }>(`/users/${userId}/role`, {
                 role: newRole
-            });
+            },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                }
+            );
             if (data.success)
                 toast.success("Role Updated Successfully");
         } catch (error) {
@@ -53,7 +60,7 @@ const UserTable = () => {
     return (
         <div>
             <div className="w-full mt-3 p-4">
-               <Link to="/dashboard" className="px-4 py-2 bg-blue-600 rounded-xl text-gray-200 font-semibold hover:bg-blue-800">Back To DashBoard</Link>
+                <Link to="/dashboard" className="px-4 py-2 bg-blue-600 rounded-xl text-gray-200 font-semibold hover:bg-blue-800">Back To DashBoard</Link>
             </div>
             <div className="container lg:w-[50vw] lg:mx-auto mx-auto p-4 pt-20 min-h-[50vh]">
                 <table className="min-w-full  bg-white shadow-md rounded-lg overflow-hidden">

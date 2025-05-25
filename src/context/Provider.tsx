@@ -4,7 +4,7 @@ import { UserContext } from "./userContext";
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState<string | null | undefined>(localStorage.getItem("userId") || undefined);
   const [accessToken, setAccessToken] = useState<string | null | undefined>(localStorage.getItem("accessToken") || undefined);
-  const [role, setRole] = useState<"user" | "editor" | "admin">((localStorage.getItem("role") as "user" | "editor" | "admin") || "user" );
+  const [role, setRole] = useState<"user" | "editor" | "admin"|null>((localStorage.getItem("role") as "user" | "editor" | "admin") || "user" );
 
   const handleSetUserId = (userId: string) => {
     setUserId(userId);
@@ -19,8 +19,10 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const handleClearUser = () => {
     setUserId(null);
     setAccessToken(null);
+    setRole(null);
     localStorage.removeItem("userId");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("role");
   };
 
   const handleSetRole = (role: "user" | "editor" | "admin") => {

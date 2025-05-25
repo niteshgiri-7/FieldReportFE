@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 export interface UserContextType {
   userId: string | null|undefined;
-  role:"user"|"editor"|"admin";
+  role:"user"|"editor"|"admin"|null;
   accessToken: string | null|undefined;
   setUserId: (userId: string) => void;
   setAccessToken: (token: string) => void;
